@@ -1,16 +1,16 @@
+const { species, employees } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-// function speciesByIds(ids) {
-//   return data.employees.find((id) => ids.includes(id));
-// }
+function speciesByIds(ids) {
+  return employees.find((item) => item.id === ids).responsibleFor[0];
+}
 
-// console.log(speciesByIds('0938aa23-f153-4937-9f88-4858b24d6bce'));
+function getOldestFromFirstSpecies(ids) {
+  const listAnimal = speciesByIds(ids);
+  const animal = species
+    .find((item) => item.id === listAnimal)
+    .residents.sort((a, b) => b.age - a.age)[0];
+  return Object.values(animal);
+}
 
-// function getOldestFromFirstSpecies(ids) {
-//   return data.employees
-//     .filter(({ id }) => ids.includes(id))
-//     .map((animal) => `${animal.responsibleFor}`);
-// }
-
-// console.log(getOldestFromFirstSpecies('c5b83cb3-a451-49e2-ac45-ff3f54fbe7e1'));
-// module.exports = getOldestFromFirstSpecies;
+module.exports = getOldestFromFirstSpecies;
