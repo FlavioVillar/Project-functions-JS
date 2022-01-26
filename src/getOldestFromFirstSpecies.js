@@ -1,10 +1,10 @@
 const data = require('../data/zoo_data');
 
-function speciesByIds(ids) {
-  return data.employees.find((id) => ids.includes(id));
-}
+// function speciesByIds(ids) {
+//   return data.employees.find((id) => ids.includes(id));
+// }
 
-console.log(speciesByIds('0938aa23-f153-4937-9f88-4858b24d6bce'));
+// console.log(speciesByIds('0938aa23-f153-4937-9f88-4858b24d6bce'));
 
 // function getOldestFromFirstSpecies(ids) {
 //   return data.employees
