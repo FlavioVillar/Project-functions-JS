@@ -7,7 +7,7 @@ function getSpeciesByIds(...ids) {
   // rest (...ids) permite representar um número indefinido de argumentos como um array, usado para receber mais de um id e fazer o filter.
   return species.filter(({ id }) => ids.includes(id)); // includes verifica se o id está contido na função
 }
-// **** verificação do exercício.
+// **** verificação do requisito.
 // 1 - Caso receba nenhum parâmetro, necessário retornar um array vazio;
 // console.log(getSpeciesByIds());
 
