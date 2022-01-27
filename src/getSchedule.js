@@ -36,11 +36,11 @@ function getAnimalsDays(day) {
 }
 
 function getSchedule(scheduleTarget) {
+  if (animals.includes(scheduleTarget)) return getAnimalsDays(scheduleTarget);
+  if (!scheduleTarget) return dayExhibition();
   if (days.includes(scheduleTarget)) {
     return { [scheduleTarget]: dayExhibition()[scheduleTarget] };
   }
-  if (animals.includes(scheduleTarget)) return getAnimalsDays(scheduleTarget);
-  if (!scheduleTarget) return dayExhibition();
   return dayExhibition();
 }
 
