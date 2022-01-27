@@ -1,11 +1,15 @@
 const { species, employees } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-// Faz busca (find), verifica se em 'employees.id' tem o parâmetro recebido (id de um funcionário) , retorna a primeira espécie de animal gerenciado pelo funcionário,
+// Faz busca (find), verifica se em 'employees.id' tem o parâmetro recebido (id de um funcionário) , retorna e o primeiro id (employees.responsibleFor[0]) gerenciado pelo funcionário,
 function speciesByIds(ids) {
   return employees.find((item) => item.id === ids).responsibleFor[0];
 }
 
+// retorna um array com nome, sexo e idade do animal mais velho dessa espécie.
+// Cria const para receber o resultado da function 'speciesByIds'.
+// Cria const para receber a busca (find), verifica se em 'species.id' tem o parâmetro recebido da function 'speciesByIds', achando, vai em 'species.residents' e ordena os elementos do array com sort, usando a 'species.residents.age' e retorna somente o 1º [0].
+// retorna somente os valores das keys na const animal (para ficar igual ao resultado do test)
 function getOldestFromFirstSpecies(ids) {
   const listAnimal = speciesByIds(ids);
   const animal = species
