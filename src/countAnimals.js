@@ -21,7 +21,7 @@ function countAnimals(animal) {
       0,
     );
 }
-// **** verificação do exercício.
+// **** verificação do requisito.
 // 1 - Se nenhum argumento for passado, retorna um objeto cujo o nome de cada espécie é uma chave desse objeto, e o total de animais dessa espécie é o seu valor.
 // console.log(countAnimals());
 
