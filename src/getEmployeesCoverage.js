@@ -10,7 +10,6 @@ function getObjectReceives(target) {
       || target.id === item.id,
   );
 }
-console.log(getObjectReceives({ name: 'Sharonda' }));
 
 function getResultList(target) {
   if (!getObjectReceives(target)) {
