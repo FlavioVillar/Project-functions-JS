@@ -1,7 +1,7 @@
 const { species, employees } = require('../data/zoo_data');
 const data = require('../data/zoo_data');
 
-//  função que busca (find) em employees.name e employees.id o parâmetro recebido, que pode ser o firstName, lastName ou id do employee.
+//  função que busca em employees.name e employees.id o parâmetro recebido (que pode ser o firstName, lastName ou id do employee), e retorna True ou False.
 function getObjectReceives(target) {
   return employees.find(
     (item) =>
@@ -11,50 +11,34 @@ function getObjectReceives(target) {
   );
 }
 
+// function que retorna a cobertura de todas as pessoas funcionárias ou um Error
 function getResultList(target) {
-  if (!getObjectReceives(target)) {
-    throw new Error('Informações inválidas');
-  }
-  // faz Object Destructuring no objeto resultado da function getObjectReceives, para extrair valores nas const seguintes e para montar o objeto do return.
+  // Verifica o parâmetro recebido é true ou false. // (usado ! - para se for false ir para o throw new Error).
+  if (!getObjectReceives(target)) throw new Error('Informações inválidas');
+  // Faz Object Destructuring no objeto resultado da function getObjectReceives, para montar o objeto do return.
   const { firstName, lastName, responsibleFor, id } = getObjectReceives(target);
-  // filter no id de species.id usando o employees.responsibleFor do parâmetro recebido
-  const getResponsibleForAnimal = species.filter((item) => responsibleFor.includes(item.id));
-  // map com os nomes dos animais que o employee é responsável
-  const getAnimalName = getResponsibleForAnimal.map((item) => item.name);
-  // map com a localização do animal pelo nome
-  const getAnimalLocation = getResponsibleForAnimal.map((item) => item.location);
-  // retorna objeto no formato pedido no teste.
+  // Se True - retorna objeto no formato pedido no teste.
   return {
     id,
     fullName: `${firstName} ${lastName}`,
-    species: getAnimalName,
-    locations: getAnimalLocation,
+    // filtra o id no .species.id com o id recebido do employee.responsibleFor, depois map para retornar array só com o nome dos animais
+    species: species
+      .filter((idAnimal) => responsibleFor.includes(idAnimal.id))
+      .map((animal) => animal.name),
+    locations: species
+      .filter((item) => responsibleFor.includes(item.id))
+      .map((item) => item.location),
   };
 }
-//  função que insere na function getResultList o parâmetro quando recebe UNDEFINED em getEmployeesCoverage, retorna um objeto com o map de todos os employees. ({ id: item.id })
-function allListEmployee() {
-  return employees.map((item) => getResultList({ id: item.id }));
-}
-// Função chamada no test que só está retornando outras 2 funções.
+
+// Função chamada no test.
 function getEmployeesCoverage(target) {
+  //  verifica se parâmetro é UNDEFINED, se True, retorna um objeto com o map de todos funcionários.   chamando a função getResultList colocado como parâmetro um objeto com employee.id, para retornar todos os funcionários pelo id.
   if (target === undefined) {
-    return allListEmployee();
+    return employees.map((item) => getResultList({ id: item.id }));
   }
+  // False - Retorna getResultList com o parâmetro recebido.
   return getResultList(target);
 }
-// **** verificação do requisito.
-// 1 - se o objeto de opções tiver a propriedade name retorna somente a pessoa correspondente
-// console.log(getEmployeesCoverage({ name: 'Sharonda' }));
 
-// 2 - a propriedade name do objeto de opções também funciona usando o segundo nome
-// console.log(getEmployeesCoverage({ name: 'Spry' }));
-
-// 3 - se o objeto de opções tiver a propriedade id retorna somente a pessoa correspondente
-// console.log(getEmployeesCoverage({ id: 'c1f50212-35a6-4ecd-8223-f835538526c2' }));
-
-// 4 - sem parâmetros, retorna uma lista com a cobertura de todas as pessoas funcionárias
-// console.log(getEmployeesCoverage());
-
-// 5 - caso não haja nenhuma pessoa com o nome ou id especificados deverá ser lançado um error
-// console.log(getEmployeesCoverage({ id: 'Id inválido' }));
 module.exports = getEmployeesCoverage;

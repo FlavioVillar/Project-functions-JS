@@ -1,15 +1,5 @@
 const data = require('../data/zoo_data');
 
-// const para verificação do requisito.
-// const testEntrants = [
-//   { name: 'Lara Carvalho', age: 5 },
-//   { name: 'Frederico Moreira', age: 5 },
-//   { name: 'Pedro Henrique Carvalho', age: 5 },
-//   { name: 'Maria Costa', age: 18 },
-//   { name: 'Núbia Souza', age: 18 },
-//   { name: 'Carlos Nogueira', age: 50 },
-// ];
-
 // visto na mentoria do Daniel com par e impar e em https://youtu.be/W7IPXg0A1-0
 // Passa o parâmetro recebido em (entrants) e executa uma função redutora (reduce) para cada elemento do array, resultando em um único valor de retorno.
 // O reduce recebe 2 parâmetros: (acc) e (Valor real ({ age }) (como object destructuring)), e foi criada 3 condições (< 18) (>= 18 &&< 50) (>= 50), e também recebe um objeto { child: 0, adult: 0, senior: 0 } para receber o valor do acc.
@@ -40,28 +30,5 @@ function calculateEntry(entrants) {
   );
   return listPrices;
 }
-// **** verificação do requisito.
-// 1 - Ao receber um array de visitantes, retorna um objeto com a contagem;
-// console.log(countEntrants(testEntrants));
 
-// 2 - Retorna 0 se nenhum argumento for passado;
-// console.log(calculateEntry());
-
-// 3 - Retorna 0 se um objeto vazio for passado;
-// console.log(calculateEntry({}));
-
-// 4 - Retorna o preço total a ser cobrado dado o array de pessoas.
-// console.log(calculateEntry(testEntrants));
-
-// 5 - ao receber um array com 1 pessoa adulta retorna o valor correto
-// console.log(calculateEntry({ name: 'Maria Costa', age: 18 }));
-
-// 6 - ao receber um array com 1 pessoa mais velha retorna o valor correto
-// console.log(calculateEntry({ name: 'Carlos Nogueira', age: 50 }));
-
-// 7 - ao receber um array com 1 criança retorna o valor correto
-// console.log(calculateEntry({ name: 'Lara Carvalho', age: 5 }));
-
-// 8 - ao receber um array com 1 criança e 1 pessoa mais velha retorna o valor correto
-// console.log(calculateEntry([{ name: 'Lara Carvalho', age: 5 }, { name: 'Carlos Nogueira', age: 50 }]));
 module.exports = { calculateEntry, countEntrants };
