@@ -52,19 +52,4 @@ function getSchedule(target) {
   return ListDayHourAnimalExhibition();
 }
 
-// 1 - sem parâmetros, retorna os horários para cada dia e quais animais estarão disponíveis
-// console.log(getSchedule());
-
-// 2 - caso os parâmetros não seja um animal e dia, retorna um objeto com os horários do dia e os animais em exibição
-// console.log(getSchedule('qualquercoisa'));
-
-// 3 - se 'Monday' for passado por parâmetro, deverá informar que o zoológico está fechado
-// console.log(getSchedule('Monday'));
-
-// 4 - ok - se um dia for passado, retorna somente o horário daquele expediente e os animais em exibição no dia
-// console.log(getSchedule('Tuesday'));
-
-// 5 - ok - se for passado um animal, deverá retornar um array com os dias em que ele está em exibição
-// console.log(getSchedule('lions'));
-
 module.exports = getSchedule;
