@@ -66,4 +66,5 @@ function getSchedule(target) {
 
 // 5 - ok - se for passado um animal, deverá retornar um array com os dias em que ele está em exibição
 // console.log(getSchedule('lions'));
+
 module.exports = getSchedule;
