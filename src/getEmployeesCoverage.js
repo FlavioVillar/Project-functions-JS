@@ -21,15 +21,18 @@ function getResultList(target) {
   return {
     id,
     fullName: `${firstName} ${lastName}`,
-    // filtra o id no .species.id com o id recebido do employee.responsibleFor, depois map para retornar array só com o nome dos animais
-    species: species
-      .filter((idAnimal) => responsibleFor.includes(idAnimal.id))
-      .map((animal) => animal.name),
-    locations: species
-      .filter((item) => responsibleFor.includes(item.id))
-      .map((item) => item.location),
+    // Reduce verifica se o id do animal esta incluso no funcionário. True - faz o push no acumulado do nome do animal na posição atual. False - segue.
+    species: species.reduce((acc, cur) => {
+      if (responsibleFor.includes(cur.id)) acc.push(cur.name);
+      return acc;
+    }, []),
+    locations: species.reduce((acc, cur) => {
+      if (responsibleFor.includes(cur.id)) acc.push(cur.location);
+      return acc;
+    }, []),
   };
 }
+//  como usar push, baseado https://stackoverflow.com/questions/62066192/array-reduce-accumulator-as-an-empty-array-push-not-working
 
 // Função chamada no test.
 function getEmployeesCoverage(target) {
