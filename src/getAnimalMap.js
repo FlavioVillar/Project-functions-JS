@@ -1,76 +1,108 @@
-const { species } = require("../data/zoo_data");
-const data = require("../data/zoo_data");
+const { species } = require('../data/zoo_data');
+const data = require('../data/zoo_data');
 
-// Sem parâmetros, retorna animais categorizados por localização.
-// Reduce empurra para o acc - key criada com [location] e seu valor é ado com push no name na posição atual.
-// push visto em https://24ways.org/2019/five-interesting-ways-to-use-array-reduce/ - Mas funcionou somente quando criado Key iguais no objeto, igual requisito 'calculateEntry'
 function getAnimalLocationNoParameter() {
   return species.reduce(
-    (acc, cur) => {
-      acc[cur.location].push(cur.name);
-      return acc;
-    },
-    { NE: [], NW: [], SE: [], SW: [] }
-  );
-}
-// target.x apareceu com erro na digitação, mas passou no test... (target.qualquerLetra funciona)
-
-function getAnimalLocationSex(target) {
-  return species.reduce(
-    (acc, cur) => {
-      if (cur.residents.sex === target.x) acc[cur.location].push(cur.name);
-      return acc;
-    },
-    { NE: [], NW: [], SE: [], SW: [] }
-  );
-}
-function nameOfAnimal(target) {
-
-  return Object.keys(species.residents)
-    .filter((item) => item.residents.sex === target.sex)
-    .map((animal) => animal.residents.name);
-}
-console.log(nameOfAnimal({ includeNames: true, sex: "female", sorted: true }));
-
-function getAnimalLocationNameSexSorted(target) {
-  // const nameOfAnimal = species
-  //   .filter((item) => item.residents === target.sex)
-  //   .map((animal) => animal.name);
-
-  return species.reduce(
-    (acc, cur) => {
-      if (cur.residents.sex === target.x)
-        acc[cur.location].push({ [cur.name]: nameOfAnimal });
-      return acc;
-    },
-    { NE: [], NW: [], SE: [], SW: [] }
+    (acc, cur) => ({
+      ...acc,
+      [cur.location]: species
+        .filter((item) => item.location === cur.location)
+        .map((item) => item.name),
+    }),
+    {},
   );
 }
 
-function getAnimalMap(target) {
-  if (!target) {
-    return getAnimalLocationNoParameter();
+const getResidentsOfName = (locations) =>
+  species
+    .filter((item) => item.location === locations)
+    .map(({ name, residents }) => ({
+      [name]: residents.map((item) => item.name),
+    }));
+
+function getResidentsName() {
+  return species
+    .filter((item) => item.location)
+    .reduce(
+      (acc, cur) => ({
+        ...acc,
+        [cur.location]: getResidentsOfName(cur.location),
+      }),
+      {},
+    );
+}
+
+// **** ok ____________________________________________________________________________________________________________________
+
+const getResidentsOfName2 = (element) =>
+  species
+    .filter((item) => item.location === element)
+    .map(({ name, residents }) => ({
+      [name]: residents.map((item) => item.name).sort(),
+    }));
+
+const getResidentsOfName4 = (element) =>
+  species
+    .filter((item) => item.location === element)
+    .map(({ name, residents }) => ({
+      [name]: residents
+        .filter((item) => item.sex === 'female')
+        .map((item) => item.name)
+        .sort(),
+    }));
+
+function getResidentsName2(element) {
+  if (element.sex && element.sorted) {
+    return species.filter((item) => item.location)
+      .reduce(
+        (acc, cur) => ({
+          ...acc,
+          [cur.location]: getResidentsOfName4(cur.location),
+        }),
+        {},
+      );
   }
-  // return getAnimalLocationSex(target);
-  return getAnimalLocationNameSexSorted(target);
+  return species.filter((item) => item.location)
+    .reduce(
+      (acc, cur) => ({
+        ...acc,
+        [cur.location]: getResidentsOfName2(cur.location),
+      }),
+      {},
+    );
 }
-// ✕ sem a opção `includeNames` especificada e somente com a opção `sex: female` especificada, retorna todos os animais categorizados por localização sem aplicar o filtro `sex` (2ms)
-// ✕ sem a opção `includeNames` especificada e as opções `sex: female` e `sorted: true` forem especificadas, retorna animais categorizados por localização sem aplicar os filtros `sex` e `sorted` (1ms)
-// com a opção `includeNames: true` especificada, retorna nomes de animais (5ms)
-//     ✕ com a opção `sorted: true` especificada, retorna nomes de animais ordenados (2ms)
-//     ✕ com a opção `sex: 'female'` ou `sex: 'male'` especificada, retorna somente nomes de animais macho/fêmea (1ms)
-//     ✕ com a opção `sex: 'female'` ou `sex: 'male'` especificada e a opção `sort: true` especificada, retorna somente nomes de animais macho/fêmea com os nomes dos animais ordenados (1ms)
 
-console.log(getAnimalMap({ includeNames: true, sex: "female", sorted: true }));
-// const expected = {
-//   NE: [
-//     { lions: ['Zena', 'Maxwell', 'Faustino', 'Dee'] },
-//     { giraffes: ['Gracia', 'Antone', 'Vicky', 'Clay', 'Arron', 'Bernard'] },
-//   ],
+// **** ok ____________________________________________________________________________________________________________________
+
+const getResidentsOfName3 = (element) =>
+  species
+    .filter((item) => item.location === element)
+    .map(({ name, residents }) => ({
+      [name]: residents
+        .filter((item) => item.sex === 'female')
+        .map((item) => item.name),
+    }));
+
+console.log(getResidentsOfName3('NE'));
+
+function getResidentsName3() {
+  return species
+    .filter((item) => item.location)
+    .reduce(
+      (acc, cur) => ({
+        ...acc,
+        [cur.location]: getResidentsOfName3(cur.location),
+      }),
+      {},
+    );
+}
+
+// **** ok ________________________________________________________________________________________________
+function getAnimalMap(target) {
+  if (!target || !target.includeNames) return getAnimalLocationNoParameter();
+  if (target.sorted) return getResidentsName2(target);
+  if (target.sex) return getResidentsName3();
+  return getResidentsName();
+}
+
 module.exports = getAnimalMap;
-
-// ✓ sem parâmetros, retorna animais categorizados por localização (2ms)
-// ✕ com a opção `includeNames: true` especificada, retorna nomes de animais (1ms)
-// ✕ com a opção `sorted: true` especificada, retorna nomes de animais ordenados
-// ✕ com a opção `sex: 'female'` ou `sex: 'male'` especificada, retorna somente nomes de animais macho/fêmea (1ms)
-// ✕ com a opção `sex: 'female'` ou `sex: 'male'` especificada e a opção `sort: true` especificada, retorna somente nomes de animais macho/fêmea com os nomes dos animais ordenados (6ms)

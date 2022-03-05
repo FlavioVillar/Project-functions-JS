@@ -15,6 +15,7 @@ const animalsOfDay = (day) =>
     }
     return acc;
   }, []);
+
 // pode receber como parâmetro um dia (recebendo como parâmetro { [target]: ListDayHourAnimalExhibition()[target] }, ou pode só retornar o que ela executa sem parâmetro definido.
 // função que usa a const days para gerar 2 objetos, 1 para os dias da semana que não são Monday e outro para Monday.
 function ListDayHourAnimalExhibition() {
@@ -41,7 +42,6 @@ function ListDayHourAnimalExhibition() {
 function getSchedule(target) {
   // Se passado um animal, retorna um array com os dias dele em exibição
   if (animals.includes(target)) return species.find(({ name }) => name === target).availability;
-
   // se um dia for passado, chama a função que trata os dias, sendo passado como parâmetro para a função um objeto com o target, pois a função está sem parâmetro.
   if (days.includes(target)) return { [target]: ListDayHourAnimalExhibition()[target] };
 
@@ -53,3 +53,5 @@ function getSchedule(target) {
 }
 
 module.exports = getSchedule;
+
+console.log(getSchedule('Tuesday'));

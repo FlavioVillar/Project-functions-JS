@@ -25,7 +25,7 @@ function calculateEntry(entrants) {
   const listEntrants = countEntrants(entrants);
   // (Object.keys(listEntrants) vai pegar só as chaves ['child', 'adult', 'senior'].
   // reduce passa no array, e o acc acumula a multiplicação de listEntrants na posição atual vezes data.prices na posição atual.
-  const listPrices = Object.keys(countEntrants(entrants)).reduce(
+  const listPrices = Object.keys(listEntrants).reduce(
     (acc, atual) => acc + listEntrants[atual] * data.prices[atual],
     0,
   );
